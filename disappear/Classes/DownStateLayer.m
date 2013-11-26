@@ -21,9 +21,9 @@
         
         [self setAnchorPoint:ccp(0, 0) ];
         
-        CCMenuItemImage * skillOne = [CCMenuItemImage itemWithNormalImage:@"Images/skillbutton.png" selectedImage:@"Images/skillButton_unselect.png" target:self selector:@selector(skillOnePressed)];
-        CCMenuItemImage * skillTwo = [CCMenuItemImage itemWithNormalImage:@"Images/skillbutton.png" selectedImage:@"Images/skillButton_unselect.png" target:self selector:@selector(skillTwoPressed)];
-        CCMenuItemImage * skillThree = [CCMenuItemImage itemWithNormalImage:@"Images/skillbutton.png" selectedImage:@"Images/skillButton_unselect.png" target:self selector:@selector(skillThreePressed)];
+        CCMenuItemImage * skillOne = [CCMenuItemImage itemWithNormalImage:@"Images/leftone.png" selectedImage:nil target:self selector:@selector(skillOnePressed)];
+        CCMenuItemImage * skillTwo = [CCMenuItemImage itemWithNormalImage:@"Images/xiaobisha.png" selectedImage:nil target:self selector:@selector(skillTwoPressed)];
+        CCMenuItemImage * skillThree = [CCMenuItemImage itemWithNormalImage:@"Images/dabisha.png" selectedImage:nil target:self selector:@selector(skillThreePressed)];
         
         
         [skillOne setAnchorPoint:ccp(0, 0)];

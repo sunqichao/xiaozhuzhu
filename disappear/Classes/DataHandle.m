@@ -34,6 +34,7 @@ static inline int calcIndex(int x,int y){
                 
                 DrawSprite * drawS = [DrawSprite node];
                 
+                //初始化上面的detailview
                 [drawS spawnAtX:x Y:y Width:DRAWSPRITE_WIDTH Height:DRAWSPRITE_HEIGH];
                 
                 [m_drawSpriteArray addObject:drawS];
@@ -41,14 +42,21 @@ static inline int calcIndex(int x,int y){
                 [self addChild:drawS z:1];
             }
         }
+        
         m_stackArray = [[NSMutableArray alloc]init];
         
         
     }
+    
+    //开始是不显示的，因为要做一个动画
     self.visible = false;
+    
+    //加载声音文件
     [self loadEffectSounds];
     return self;
 }
+
+#pragma mark - 加载音频
 
 -(void) loadEffectSounds{
     [[SimpleAudioEngine sharedEngine] preloadEffect:@"Sounds/1.aif"];
@@ -71,6 +79,8 @@ static inline int calcIndex(int x,int y){
 //    
 //}
 
+#pragma mark - 获取所点击的点点的对象
+
 -(DrawSprite *)getCurrentSelectSprite:(CGPoint)pos {
     if (m_drawSpriteArray) {
         
@@ -89,6 +99,7 @@ static inline int calcIndex(int x,int y){
 
 -(BOOL) touchBegine:(CGPoint)local{
     
+    //使用必杀模式，有两种，一个是大必杀，一个是小必杀
     if (m_toolsDisappear) {
         
         [self toolDisappearSelected:local];
@@ -96,10 +107,14 @@ static inline int calcIndex(int x,int y){
         return false;
     }
     
+    //获取点的那个点
     m_movePos = local;
+    
     m_objectHasContina = NO;
+    
     m_removeAllSameColor = NO;
     
+    //使连中的几个点取消选中状态 并移除
     if (m_stackArray.count !=0) {
         for (DrawSprite * node in m_stackArray) {
             [node unselected];
@@ -109,6 +124,7 @@ static inline int calcIndex(int x,int y){
     
     DrawSprite * ds = [self getCurrentSelectSprite:local];
     
+    //选中那个点高亮一下，并设置为可画线
     if (ds && [ds selectedType]) {
         
         [m_stackArray addObject:ds];
@@ -128,11 +144,15 @@ static inline int calcIndex(int x,int y){
     
     DrawSprite * ds = [self getCurrentSelectSprite:local];
     
+    //判断颜色，颜色和初始点的那个点点的颜色一样才继续
     if (ds && ccc4FEqual(m_currentDrawColor, ds.m_color)) {
         
+        //等于自身的时候 直接返回
         if (ds == [m_stackArray lastObject]) {
             return;
         }
+        
+        //  这个是按原路径向回滑动的情况，回取消前面那个选中的状态
         if (m_stackArray.count >=2 &&
             ds == [m_stackArray objectAtIndex:(m_stackArray.count-2)]) {//退一格
             
@@ -143,12 +163,14 @@ static inline int calcIndex(int x,int y){
                 m_objectHasContina = NO;
             }
             
+            //移除上一个点点的连线
             [m_stackArray removeLastObject];
             [ds selectedType];
             [self playingSound:m_stackArray.count];//play sounds
             return;
         }
         
+        //当画一个方形的时候就相当于放大必杀一样，会把所有的颜色相同的都消除调
         if (!m_objectHasContina && [m_stackArray containsObject:ds]) {
             
             DrawSprite * tds = [m_stackArray lastObject];
@@ -165,6 +187,7 @@ static inline int calcIndex(int x,int y){
             }
         }
         
+        //当画方格成功后，再在方格里动的画就执行这里
         if (m_objectHasContina && [m_stackArray containsObject:ds]) {
             return;
         }
@@ -174,9 +197,11 @@ static inline int calcIndex(int x,int y){
         
         NSInteger absValue = abs(ds.m_x - tds.m_x) + abs(ds.m_y - tds.m_y);
         
+        //每成功连一个就会调用一次
         if (absValue == 1 && [ds selectedType]) {
             [m_stackArray addObject:ds];//play sounds
             [self playingSound:m_stackArray.count];
+            NSLog(@"shit absvalue = 1");
         }
     }
 }
@@ -184,6 +209,8 @@ static inline int calcIndex(int x,int y){
 #pragma mark - 消除得分的点点，并加分
 
 -(void)touchEnd{
+    
+    //触摸结束画线状态为NO
     m_drawLine = NO;
     
     NSInteger disappearCount = 0;
@@ -225,16 +252,24 @@ static inline int calcIndex(int x,int y){
     }
 }
 
+#pragma mark - 大必杀，消除选中颜色的所有点点
+
 -(NSInteger) disappearAllSameColorDotsWithSelected{
     NSInteger count = 0;
+    
+    //控制是否要执行disappear里面的一个回调方法
     BOOL dis = YES;
     for (int i=0; i<m_drawSpriteArray.count; i++) {
         DrawSprite * node = [m_drawSpriteArray objectAtIndex:i];
+        
+        //判断颜色
         if (node && ccc4FEqual(m_currentDrawColor, node.m_color)) {
             if (dis) {
+                //执行回调
                 [node disappear:YES];
                 dis = NO;
             }
+            //不执行回调
             [node disappear:NO];
             count ++;
         }
@@ -322,7 +357,9 @@ static inline int calcIndex(int x,int y){
         
         NSInteger index = y*TOTALY + x;
         NSInteger nIndex = (y-1) * TOTALY +x;
-        
+        NSLog(@"index_1 ********** %d",index);
+        NSLog(@"index_2 ********** %d",nIndex);
+
         if (nIndex<0) {
             break;
         }
@@ -351,26 +388,31 @@ static inline int calcIndex(int x,int y){
 
 -(void) toolDisappearSelected:(CGPoint) local{
     
+    //获取选中点点
     DrawSprite * ds = [self getCurrentSelectSprite:local];
     
     int count = 0;
     
     if (ds) {
         
+        //取消选中
         [self cancelAllDrawNodeBeSelected];
         
+        //超级必杀 消除所有颜色
         if (m_toolsDisappearType) {
             
             m_currentDrawColor = ds.m_color;
             count = [self disappearAllSameColorDotsWithSelected];
-        }else{
+            
+        }else{  //小必杀 只消除当前选中的那个
+            
             [ds disappear:YES];
             count = 1;
         }
+        
         m_toolsDisappear = NO;
         
-        
-        
+        //添加分数更新
         if (self.parent) {
             
             DotPlayingScnen * playing = (DotPlayingScnen*)self.parent;

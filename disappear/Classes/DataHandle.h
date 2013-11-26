@@ -18,23 +18,28 @@
     //储存所有的精灵
     NSMutableArray * m_drawSpriteArray;
     
+    //当前选中的颜色
     ccColor4F m_currentDrawColor;
     
     //这个表示连接成功的数组
     NSMutableArray * m_stackArray;
     
+    //是否开始画线
     BOOL m_drawLine;
     
     BOOL m_objectHasContina;
     
     BOOL m_removeAllSameColor;
     
+    //是否使用必杀
     BOOL m_toolsDisappear;
     
+    //必杀的类型，YES表示大必杀，会消除所选颜色的所有点，NO表示只消除选中的那个点
     BOOL m_toolsDisappearType;
     
     BOOL m_canPlaying;
     
+    //当手触摸到屏幕上的那个点的坐标 画线的时候要用
     CGPoint m_movePos;
 }
 

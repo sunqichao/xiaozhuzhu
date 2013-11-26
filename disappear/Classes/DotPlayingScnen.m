@@ -48,6 +48,7 @@
         m_data      = [DataHandle node];
         [self addChild:m_data];
         
+        //必杀的按钮
         m_hudController = [DotHudController node];
         
         [self addChild:m_hudController];
@@ -72,6 +73,8 @@
     //倒计时的动画
     [self startTimerCounter];
 }
+
+#pragma mark - 添加分数，
 
 -(void)playingScoreAdd:(NSInteger)score{
     
