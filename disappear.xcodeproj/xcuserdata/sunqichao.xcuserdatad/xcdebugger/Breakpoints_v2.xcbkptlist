@@ -10,57 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "disappear/Classes/DataHandle.m"
-            timestampString = "403687680.068746"
+            timestampString = "407129045.939649"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "286"
-            endingLineNumber = "286"
-            landmarkName = "-disappearEnd"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[DataHandle disappearEnd]"
-                  moduleName = "disappear"
-                  urlString = "file://localhost/Users/sunqichao/Desktop/ExamplProject/Cocos2dExample/disappear-master/disappear/Classes/DataHandle.m"
-                  timestampString = "407064234.885615"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "288"
-                  endingLineNumber = "288"
-                  offsetFromSymbolStart = "240">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[DataHandle disappearEnd]"
-                  moduleName = "disappear"
-                  urlString = "file://localhost/Users/sunqichao/Desktop/ExamplProject/Cocos2dExample/disappear-master/disappear/Classes/DataHandle.m"
-                  timestampString = "407064234.886013"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "288"
-                  endingLineNumber = "288"
-                  offsetFromSymbolStart = "358">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "disappear/Classes/DataHandle.m"
-            timestampString = "403684679.352813"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "462"
-            endingLineNumber = "462"
+            startingLineNumber = "466"
+            endingLineNumber = "466"
             landmarkName = "-ccTouchMoved:withEvent:"
             landmarkType = "5">
          </BreakpointContent>
@@ -72,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "disappear/Classes/DataHandle.m"
-            timestampString = "403684679.352813"
+            timestampString = "407129045.939649"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "471"
-            endingLineNumber = "471"
+            startingLineNumber = "475"
+            endingLineNumber = "475"
             landmarkName = "-ccTouchMoved:withEvent:"
             landmarkType = "5">
          </BreakpointContent>
@@ -93,54 +47,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "185"
             endingLineNumber = "185"
-            landmarkName = "-touchEnd"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "disappear/Classes/DataHandle.m"
-            timestampString = "403687678.77396"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "286"
-            endingLineNumber = "286"
-            landmarkName = "-disappearEnd"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[DataHandle disappearEnd]"
-                  moduleName = "disappear"
-                  urlString = "file://localhost/Users/sunqichao/Desktop/ExamplProject/Cocos2dExample/disappear-master/disappear/Classes/DataHandle.m"
-                  timestampString = "407064234.88746"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "288"
-                  endingLineNumber = "288"
-                  offsetFromSymbolStart = "240">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[DataHandle disappearEnd]"
-                  moduleName = "disappear"
-                  urlString = "file://localhost/Users/sunqichao/Desktop/ExamplProject/Cocos2dExample/disappear-master/disappear/Classes/DataHandle.m"
-                  timestampString = "407064234.887739"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "288"
-                  endingLineNumber = "288"
-                  offsetFromSymbolStart = "358">
-               </Location>
-            </Locations>
+            landmarkName = "@implementation DataHandle"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

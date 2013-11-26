@@ -20,14 +20,14 @@
 #define RESET_JUMP_TIME 0.3
 #define RESET_JUMP_TIMES 3
 
-#define DRAWSPRITE_RADIUES 11
+#define DRAWSPRITE_RADIUES 20
 #define DRAWSPRITE_WIDTH 24.0
 #define DRAWSPRITE_HEIGH 24.0
 
 #define AddHeigh 100
 #define addWidth 40
 
-#define TOTAL_TYPE 4
+#define TOTAL_TYPE 5
 
 #define ccc4fBlue ccc4f(0.549,0.7412,0.9921,1)
 #define ccc4fOrange ccc4f(1,0.6745,0,1)

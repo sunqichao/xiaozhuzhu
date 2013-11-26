@@ -22,7 +22,9 @@ static inline int calcIndex(int x,int y){
 
 - (id)init
 {
-    self = [super initWithColor:ccc4(255, 255, 255, 255)];//WithColor:ccc4(230, 230, 230, 255)
+    //把最后一个参数改为0就设置背景为透明了
+    self = [super initWithColor:ccc4(255, 255, 255, 0)];//WithColor:ccc4(230, 230, 230, 255)
+    
     if (self) {
         
         m_drawSpriteArray = [[NSMutableArray alloc]init];
@@ -302,13 +304,17 @@ static inline int calcIndex(int x,int y){
     }
 }
 
-#pragma mark - 下落点
+#pragma mark - 下落点 当有点点成功消除后会产生新得点点来填充
 
 -(void) calcDropDown:(DrawSprite*) drawSprite ResultArray:(NSMutableArray *) resultArray{
     
     if (!drawSprite) {
         return;
     }
+    
+    /*
+     感觉是点都在上面，连接相同颜色得点消除后，并不是删除，而是做一个缩放得动画，然后再让这几个点从天上再掉下来一次，前提是先把之前得空缺补上，然后再计算新得位置
+     */
     
     while (true) {
         NSInteger x = drawSprite.m_x;

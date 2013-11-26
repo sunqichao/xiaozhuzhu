@@ -25,6 +25,8 @@
     return ccp(width, height);
 }
 
+#pragma mark - 生成随机的color和随机的图片
+
 -(void) calcColor{
     int type = arc4random()%TOTAL_TYPE;
     switch (type) {
@@ -35,17 +37,17 @@
         case 1:
             m_color = ccc4fGreen;
             self.sprintFile = @"Images/greenBao.png";
-
+            
             break;
         case 2:
             m_color = ccc4fRed;
             self.sprintFile = @"Images/pinkBao.png";
-
+            
             break;
         case 3:
             m_color = ccc4fPurple;
             self.sprintFile = @"Images/purpleBao.png";
-
+            
             break;
         case 4:
             m_color = ccc4fYellow;
@@ -56,10 +58,12 @@
         default:
             m_color = ccc4fPurple;
             self.sprintFile = @"Images/purpleBao.png";
-
+            
             break;
     }
 }
+
+#pragma mark - 初始化这个layer上的个个sprite，有正常点点，高亮的点点两种，并且初始化位置
 
 -(void)spawnAtX:(NSInteger)x Y:(NSInteger)y Width:(CGFloat)w Height:(CGFloat)h{
     
@@ -74,48 +78,46 @@
     //创建出点的颜色
     [self calcColor];
     
-//    [self setContentSize:CGSizeMake(DRAWSPRITE_RADIUES, DRAWSPRITE_RADIUES)];
-    
     CGSize size = [CCDirector sharedDirector].winSize;
     
     //计算出每个点下落的的x坐标
     CGFloat wd = [self anchorPoint].x * m_w + x * m_w+addWidth;
-    
-    //画点用的
-    m_drawNode = [CCDrawNode node];
+    itemSrpint = [CCSprite spriteWithFile:self.sprintFile];
     
     //设置位置 size.height指的是点下落的那个高度  wd指的是下落时x轴的位置，如果wd设置为固定的值100则就会从一个点下落
-    [m_drawNode setPosition:ccp(wd, size.height)];
+    [itemSrpint setPosition:ccp(wd, size.height)];
+    
+    //设置矛点来确定位置
+    [itemSrpint setAnchorPoint:CGPointMake(1.2, 1.2)];
     
     //设置原点物理大小
-    [m_drawNode setContentSize:CGSizeMake(DRAWSPRITE_RADIUES, DRAWSPRITE_RADIUES)];
-    
-    [self addChild:m_drawNode];
-    
-    //画点，随着半径的改变，圆会变大
-    [m_drawNode drawDot:ccp(0, 0) radius:DRAWSPRITE_RADIUES color:m_color];
+    [itemSrpint setContentSize:CGSizeMake(DRAWSPRITE_RADIUES, DRAWSPRITE_RADIUES)];
+    [self addChild:itemSrpint];
     
     //这个点是点击后选中状态的那个点
     m_selectNode = [CCDrawNode node];
-    [m_drawNode addChild:m_selectNode];
+    
+    //把高亮的图片添加上去
+    [itemSrpint addChild:m_selectNode];
     
     //计算出选中点的颜色，淡一点的颜色
     ccColor4F col = ccc4f(m_color.r, m_color.g, m_color.b, 255*0.75);
     
     //画出选中时的点
-    [m_selectNode drawDot:ccp(0, 0) radius:DRAWSPRITE_RADIUES color:col];
+    [m_selectNode drawDot:ccp(15, 15) radius:DRAWSPRITE_RADIUES color:col];
     
     //初始状态是不可见的
     m_selectNode.visible = false;
-//    [m_drawNode clear];
+
 }
+
+#pragma mark - 重新初始化点点的图片和高亮的图片
 
 -(void)respawn{
     
     m_disappear = NO;
-    [m_drawNode stopAllActions];
-    [m_drawNode clear];
-    [m_drawNode setScale:1.0];
+    [itemSrpint stopAllActions];
+    [itemSrpint setScale:1.0];
     
     [m_selectNode clear];
     [m_selectNode setScale:1.0];
@@ -125,16 +127,21 @@
     CGSize size = [CCDirector sharedDirector].winSize;
     CGFloat wd = [self anchorPoint].x * m_w + m_x * m_w +addWidth;
     
-    [m_drawNode setPosition:ccp(wd, size.height)];
     
-    [m_drawNode drawDot:self.position radius:DRAWSPRITE_RADIUES color:m_color];
+    [itemSrpint setPosition:ccp(wd, size.height)];
     
+    CCTexture2D * texture =[[CCTextureCache sharedTextureCache] addImage:self.sprintFile];
+    
+    [itemSrpint setTexture:texture];
+
     ccColor4F col = ccc4f(m_color.r, m_color.g, m_color.b, 255*0.75);
     
-    [m_selectNode drawDot:ccp(0, 0) radius:DRAWSPRITE_RADIUES color:col];
+    [m_selectNode drawDot:ccp(15, 15) radius:DRAWSPRITE_RADIUES color:col];
     
     [self respawnDropdown];
 }
+
+#pragma mark - 初始化下落的动画
 
 -(void) spawnDropdown{
     m_dropCount = 0;
@@ -156,8 +163,13 @@
     
     CCSequence * seq = [CCSequence actions:wait,moveto,jump,callB, nil];
     
-    [m_drawNode runAction:seq];
+    [itemSrpint runAction:seq];
+    
+    
+    
 }
+
+
 -(void) respawnDropdown{
     m_dropCount = 0;
     
@@ -165,7 +177,6 @@
     
     CGPoint pos = [self calcPos:m_x y:m_y];
     
-//    CCActionInterval * wait = [CCActionInterval actionWithDuration:m_y*SPAWN_DROPDOWN_TIME/5];
     
     CCMoveTo * moveto = [CCMoveTo actionWithDuration:SPAWN_DROPDOWN_TIME/3 position:pos];
     
@@ -178,8 +189,12 @@
     
     CCSequence * seq = [CCSequence actions:moveto,jump,callB, nil];
     
-    [m_drawNode runAction:seq];
+    [itemSrpint runAction:seq];
+    
+    
 }
+
+#pragma mark - 重设 x y 坐标
 
 -(void)resetPropertyA:(NSInteger)x Y:(NSInteger)y{
     if (y <m_y) {
@@ -188,6 +203,8 @@
     m_x = x;
     m_y = y;
 }
+
+#pragma mark - 重设下落的动画
 
 -(void)resetDropdown{
     
@@ -206,23 +223,30 @@
     
     CCSequence * seq = [CCSequence actions:moveto, jump, callB, nil];
     
-    [m_drawNode runAction:seq];
+    
+    
+    [itemSrpint runAction:seq];
     m_dropCount = 0;
 }
 
+#pragma mark - 判断触摸是否在点的范围内
+
 -(BOOL)positionInContent:(CGPoint)pos{
-//    
-//    CGFloat width = DRAWSPRITE_WIDTH;
-//    CGFloat height = DRAWSPRITE_HEIGH;
+    //
+    //    CGFloat width = DRAWSPRITE_WIDTH;
+    //    CGFloat height = DRAWSPRITE_HEIGH;
     
-    CGFloat orgx = m_drawNode.position.x - DRAWSPRITE_WIDTH;
-    CGFloat orgy = m_drawNode.position.y - DRAWSPRITE_HEIGH;
+    CGFloat orgx = itemSrpint.position.x - DRAWSPRITE_WIDTH;
+    CGFloat orgy = itemSrpint.position.y - DRAWSPRITE_HEIGH;
     
     CGRect rect = CGRectMake(orgx, orgy, DRAWSPRITE_WIDTH*2, DRAWSPRITE_HEIGH*2);
     
     
     return  CGRectContainsPoint(rect, pos);//判断这个点是不是在一个rect的范围内，（这个点可能是一直移动的）
 }
+
+
+#pragma mark - 点击小点点后的高亮动画
 
 -(BOOL)selectedType{
     
@@ -232,6 +256,7 @@
     [m_selectNode setScale:1.0];
     [m_selectNode setVisible:true];
     
+    //缩放的动画
     CCScaleBy * scaleBy = [CCScaleBy actionWithDuration:0.1 scale:2.0];
     CCCallBlock * block = [CCCallBlock actionWithBlock:^{
         [m_selectNode setVisible:false];
@@ -243,6 +268,9 @@
     
     return YES;
 }
+
+
+#pragma mark - 相同颜色的点，消失后的动画，缩小到没有
 
 -(void)disappear:(bool)callf{
     
@@ -266,17 +294,23 @@
     
     m_disappear = YES;
     
-    [m_drawNode runAction:seq];
+    [itemSrpint runAction:seq];
 }
+
+#pragma mark - 状态改为没有选中的
 
 -(void) unselected{
     m_hasSelected = NO;
 }
 
+#pragma mark - 获得点点在view上的位置
+
 -(CGPoint)getDrawNodePosition{
-    return m_drawNode.position;
+    return itemSrpint.position;
 }
 
+
+#pragma mark - 让点点处于选中状态
 
 -(void)KeepSelected{
     m_hasSelected = YES;
@@ -289,6 +323,8 @@
     
     [m_selectNode runAction:scaleBy];
 }
+
+#pragma mark - 让点点恢复正常状态
 
 -(void)unKeepSelected{
     
